@@ -1,12 +1,52 @@
 // ! ! !
 // Three Bugs
 
-var arrayAtticus = ["Atticus", "2405", "47000", 3];
-var arrayJem = ["Jem", "62347", "63500", 4];
-var arrayBoo = ["Boo", "11435", "54000", 3];
-var arrayScout = ["Scout", "6243", "74750", 5];
 
-var array = [arrayAtticus, arrayJem, arrayBoo, arrayScout];
+//object constructor
+
+
+function People(empName, empNumber, empSalary, empRating){
+
+  this.name = empName;
+  this.id = empNumber;
+  this.salary = empSalary;
+  this.rating = empRating;
+  this.validate = function(){
+
+    if (this.name == undefined){
+      this.name = "name not entered"
+    }
+    if (this.id == undefined){
+      this.id = "id not entered"
+    }
+    if (this.salary == undefined){
+      this.salary = "salary not entered"
+    }
+    if (this.rating == undefined){
+      this.rating = "rating not entered"
+    }
+
+  }
+  
+
+
+
+}
+
+var atticus = new People("Atticus", "2405", "47000", 3);
+var jem = new People("Jem", "62347", "63500", 4);
+var boo = new People("Boo", "11435", "54000", 3);
+var scout = new People("Scout", "6243", "74750", 5);
+//var riley = new People(undefined, "1123");
+
+
+
+// var arrayAtticus = ["Atticus", "2405", "47000", 3];
+// var arrayJem = ["Jem", "62347", "63500", 4];
+// var arrayBoo = ["Boo", "11435", "54000", 3];
+// var arrayScout = ["Scout", "6243", "74750", 5];
+
+var array = [atticus, jem, boo, scout];
 
 //Create variables used to write to the DOM
 var newEl, newText, position;
@@ -17,6 +57,10 @@ position = document.getElementById('content');
 //Note that the information is not 'clean'
 for(var i = 0; i < array.length; i++){
   //BUG 1: missing [i] after second array call
+  array[i].validate();
+
+  console.log(array[i]);
+
 	array[i] = calculateSTI(array[i]);
  	newEl = document.createElement('li');
 	newText = document.createTextNode(array[i]);
@@ -24,24 +68,51 @@ for(var i = 0; i < array.length; i++){
 	position.appendChild(newEl);
 }
 
-function calculateSTI(array){
+function calculateSTI(object){
+
   var newArray = [];
 
-  newArray[0] = array[0];
+  newArray[0] =  object.name ;
 
-  var employeeNumber = array[1];
-  var baseSalary = array[2];
-  var reviewScore = array[3];
+  console.log("new array 0=" + newArray[0]);
+  console.log(object.id);
+
+  var employeeNumber = object.id;
+
+  var baseSalary = object.salary;
+  var reviewScore =object.rating;
 
   var bonus = getBaseSTI(reviewScore) + getYearAdjustment(employeeNumber) - getIncomeAdjustment(baseSalary);
   if(bonus > 0.13){
     bonus = 0.13;
   }
 
-  newArray[1] = bonus;
+  newArray[1] = "  " + bonus;
   //BUG 2: add Math.round
-  newArray[2] = Math.round(baseSalary * (1.0 + bonus));
-  newArray[3] = baseSalary * bonus;
+  newArray[2] = "  " + Math.round(baseSalary * (1.0 + bonus));
+  newArray[3] = "  " + Math.round(baseSalary * bonus);
+
+// if 1 2 3 not numbers then set them as strings
+  //for ( var i = 1; i < newArray.length; i++){
+
+  
+
+
+  //}
+
+  if (isNaN(newArray[1])){
+      newArray[1]="some string";
+  }
+
+    if (isNaN(newArray[2])){
+      newArray[2]="some string";
+  }
+
+  if (isNaN(newArray[3])){
+      newArray[3]="some string";
+  }
+
+
   console.log(newArray[0] + " " + newArray[1] + " " + newArray[2] + " " + newArray[3]);
   return newArray;
 }
